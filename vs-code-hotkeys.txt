@@ -1,0 +1,2 @@
+alt + shift F >> auto format;
+cltr + F && alt + enter >> multiline editing || alt + double click
