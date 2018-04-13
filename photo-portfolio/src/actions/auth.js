@@ -1,15 +1,10 @@
 import * as types from './actionTypes';
 import api from '../api';
 
-const loggedIn = user => {
-    return {
-        type: types.LOGGED_IN,
-        user
-    };
-}
+// '({})' is equivalent to 'return'
+const loggedIn = user => ({
+    type: types.LOGGED_IN,
+    user
+});
 
-export const login = data => {
-    const user = api.login(data);
-    return (dispatch) => 
-        dispatch(loggedIn(user));
-}
+export const login = credentials => dispatch => api.user.login(credentials).then(user => dispatch(loggedIn(user)));
