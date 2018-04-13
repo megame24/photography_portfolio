@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const HomePage = () => 
   <div>
     <h1>Welcome</h1>
-    <Link to="/login">Login</Link>
+    <Link to="/admin/login">Login</Link>
   </div>;
 
 export default HomePage;

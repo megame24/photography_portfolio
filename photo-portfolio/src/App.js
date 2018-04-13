@@ -6,6 +6,6 @@ import HomePage from "./components/HomePage";
 const App = () => 
   <div className="ui container">
     <Route path="/" exact component={HomePage} />
-    <Route path="/Login" component={LoginPage} />
+    <Route path="/admin/Login" component={LoginPage} />
   </div>;
 export default App;

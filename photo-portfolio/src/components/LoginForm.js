@@ -1,5 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
+import { Form, Button } from "semantic-ui-react";
 import ErrorText from "./ErrorText";
 
 class LoginForm extends React.Component {
@@ -38,30 +39,34 @@ class LoginForm extends React.Component {
   render() {
     const { data, errors } = this.state;
 
+    // '!!' converts string/undefined to bool
     return (
-      <form onSubmit={this.onSubmit}>
-        <label>Username</label>
-        <input
-          value={data.username}
-          type="text"
-          name="username"
-          placeholder="enter username"
-          onChange={this.onChange}
-        />
-        {errors.username && <ErrorText error={errors.username} />}
-
-        <label>Password</label>
-        <input
-          value={data.password}
-          type="password"
-          name="password"
-          placeholder="enter password"
-          onChange={this.onChange}
-        />
-        {errors.password && <ErrorText error={errors.password} />}
-
-        <button type="submit">Login</button>
-      </form>
+      <Form onSubmit={this.onSubmit}>
+        <Form.Field error={!!errors.username}>
+          <label htmlFor="username">Username</label>
+          <input
+            value={data.username}
+            type="text"
+            id="username"
+            name="username"
+            placeholder="enter username"
+            onChange={this.onChange}
+          />
+          {errors.username && <ErrorText error={errors.username} />}
+        </Form.Field>
+        <Form.Field error={!!errors.password}>
+          <label>Password</label>
+          <input
+            value={data.password}
+            type="password"
+            name="password"
+            placeholder="enter password"
+            onChange={this.onChange}
+          />
+          {errors.password && <ErrorText error={errors.password} />}
+        </Form.Field>
+        <Button primary>Login</Button>
+      </Form>
     );
   }
 }
