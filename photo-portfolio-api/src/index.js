@@ -7,8 +7,10 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
+app.use(bodyParser.json());
+
 app.post("/auth/login", (req, res) => {
-  res.status(400).json({errors: {global: "invalid credentials"}})
+  res.status(200).json(req.body);
 });
 
 app.get("*", (req, res) => {

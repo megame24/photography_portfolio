@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Message } from "semantic-ui-react";
 import ErrorText from "./ErrorText";
 
 class LoginForm extends React.Component {
@@ -24,7 +24,10 @@ class LoginForm extends React.Component {
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data);
+      this.setState({loading: true});
+      this.props
+        .submit(this.state.data)
+        .catch(error => this.setState({ errors: error.response.data.errors, loading: false }));
     }
   };
 
@@ -37,36 +40,45 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const { data, errors } = this.state;
+    const { data, errors, loading } = this.state;
 
     // '!!' converts string/undefined to bool
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Field error={!!errors.username}>
-          <label htmlFor="username">Username</label>
-          <input
-            value={data.username}
-            type="text"
-            id="username"
-            name="username"
-            placeholder="enter username"
-            onChange={this.onChange}
-          />
-          {errors.username && <ErrorText error={errors.username} />}
-        </Form.Field>
-        <Form.Field error={!!errors.password}>
-          <label htmlFor="password">Password</label>
-          <input
-            value={data.password}
-            type="password"
-            name="password"
-            placeholder="enter password"
-            onChange={this.onChange}
-          />
-          {errors.password && <ErrorText error={errors.password} />}
-        </Form.Field>
-        <Button primary>Login</Button>
-      </Form>
+      <div>
+        {errors.global && (
+          <Message negative>
+            <Message.Header>Oops, something went wrong:</Message.Header>
+            <p>{errors.global}</p>
+          </Message>
+        )}
+
+        <Form onSubmit={this.onSubmit} loading={loading}>
+          <Form.Field error={!!errors.username}>
+            <label htmlFor="username">Username</label>
+            <input
+              value={data.username}
+              type="text"
+              id="username"
+              name="username"
+              placeholder="enter username"
+              onChange={this.onChange}
+            />
+            {errors.username && <ErrorText error={errors.username} />}
+          </Form.Field>
+          <Form.Field error={!!errors.password}>
+            <label htmlFor="password">Password</label>
+            <input
+              value={data.password}
+              type="password"
+              name="password"
+              placeholder="enter password"
+              onChange={this.onChange}
+            />
+            {errors.password && <ErrorText error={errors.password} />}
+          </Form.Field>
+          <Button primary>Login</Button>
+        </Form>
+      </div>
     );
   }
 }

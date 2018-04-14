@@ -6,7 +6,10 @@ import { login } from "../actions/auth";
 
 class LoginPage extends React.Component {
   // don't forget to wrap your '.then' function call with an anonymous func
-  submit = data => this.props.login(data).then(() => this.props.history.push("/"));
+  submit = data =>
+    this.props
+      .login(data)
+      .then(() => this.props.history.push("/"));
 
   render() {
     return (
