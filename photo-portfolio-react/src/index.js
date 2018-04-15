@@ -9,11 +9,20 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import rootReducer from "./reducers/rootReducer";
+import { loggedIn } from "./actions/auth";
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
+
+if (localStorage.photoPortfolioJWT) {
+  const user = {
+    token: localStorage.getItem("photoPortfolioJWT")
+  };
+
+  store.dispatch(loggedIn(user));
+}
 
 render(
   <Provider store={store}>

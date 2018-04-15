@@ -4,6 +4,9 @@ const user = (state={}, action={}) => {
     switch(action.type) {
         case types.LOGGED_IN:
             return action.user;
+
+        case types.LOGGED_OUT:
+            return {};
         
         default:
             return state;
