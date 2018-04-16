@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
@@ -27,7 +27,7 @@ if (localStorage.photoPortfolioJWT) {
 render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Route component={App} />
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")
