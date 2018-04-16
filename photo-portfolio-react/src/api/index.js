@@ -5,6 +5,7 @@ export default {
     login: credentials =>
       // 'then(res => res.data.user)' just resolves the promise to the needed 'user'
       axios.post("/auth/login", credentials).then(res => res.data.user),
-    register: credentials => axios.post("/auth/register", credentials)
+    register: credentials =>
+      axios.post("/auth/register", credentials).then(res => res.data.user)
   }
 };

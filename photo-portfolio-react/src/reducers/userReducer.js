@@ -5,6 +5,9 @@ const user = (state={}, action={}) => {
         case types.LOGGED_IN:
             return action.user;
             
+        case types.REGISTERED:
+            return action.user;
+
         case types.LOGGED_OUT:
             return {};
         

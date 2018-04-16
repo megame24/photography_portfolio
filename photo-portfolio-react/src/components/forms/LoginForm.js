@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import { Link } from 'react-router-dom';
 import { Form, Button, Message } from "semantic-ui-react";
-import ErrorText from "./ErrorText";
+import ErrorText from "../ErrorText";
 
 class LoginForm extends React.Component {
   state = {
@@ -80,7 +80,7 @@ class LoginForm extends React.Component {
           <Button primary>Login</Button>
         </Form>
         <br />
-        <Link to="/admin/register"><Button className="ui green button">Register</Button></Link>
+        <Link to="/admin/register"><Button className="ui green button">New Admin</Button></Link>
       </div>
     );
   }

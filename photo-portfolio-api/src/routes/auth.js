@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/User";
+import parseError from "../utils";
 
 const router = express.Router();
 
@@ -19,11 +20,11 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   const { username, password, question, answer, secret } = req.body;
   if (secret === process.env.ADMIN_SECRET) {
-    const user = new User({username, password, question, answer});
-    user.save(err => {
-        if(err) console.log(err);
-        else res.json({success: 'Admin registered'});
-    });
+    const user = new User({ username, password, question, answer });
+    user
+      .save()
+      .then(user => res.json({ user: user.authJsonRes() }))
+      .catch(error => res.status(400).json({ errors: parseError(error.errors) }));
   } else {
     res.status(400).json({ errors: { global: "Admin secret incorrect" } });
   }

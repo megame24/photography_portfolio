@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import uniqueValidator from "mongoose-unique-validator";
 
 const salt = 10;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: {type: String, unique: true, required: true},
-  password: {type: String, required: true},
-  question: {type: String, required: true},
-  answer: {type: String, lowercase: true, required: true}
+  username: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  question: { type: String, required: true },
+  answer: { type: String, lowercase: true, required: true }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre("save", function(next) {
   const password = bcrypt.hashSync(this.password, salt);
   this.password = password;
   const answer = bcrypt.hashSync(this.answer, salt);
@@ -24,19 +25,24 @@ userSchema.pre('save', function(next) {
 userSchema.methods.isValidPassword = function isValidPassword(password) {
   // will retur bool
   return bcrypt.compareSync(password, this.password);
-}
+};
 
 userSchema.methods.generateJwt = function generateJwt() {
-  return jwt.sign({
-    username: this.username
-  }, process.env.JWT_SECRET);
-}
+  return jwt.sign(
+    {
+      username: this.username
+    },
+    process.env.JWT_SECRET
+  );
+};
 
 userSchema.methods.authJsonRes = function authJsonRes() {
   return {
     username: this.username,
     token: this.generateJwt()
-  }
-} 
+  };
+};
 
-export default mongoose.model('User', userSchema);
+userSchema.plugin(uniqueValidator, { message: "This username is already taken" });
+
+export default mongoose.model("User", userSchema);

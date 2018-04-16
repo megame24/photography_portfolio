@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "./forms/RegisterForm";
 import { connect } from "react-redux";
 import { register } from "../actions/auth";
 
@@ -10,7 +10,7 @@ class RegisterPage extends React.Component {
   submit = data =>
     this.props
       .register(data)
-      .then(() => this.props.history.push("/admin/login"));
+      .then(() => this.props.history.push("/admin/dashboard"));
 
   render() {
     return (

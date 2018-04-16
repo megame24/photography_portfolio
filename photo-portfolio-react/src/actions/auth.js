@@ -11,8 +11,9 @@ export const loggedOut = () => ({
   type: types.LOGGED_OUT
 });
 
-export const registered = () => ({
-  type: types.REGISTERED
+export const registered = user => ({
+  type: types.REGISTERED,
+  user
 });
 
 export const login = credentials => dispatch =>
@@ -27,6 +28,7 @@ export const logout = () => dispatch => {
 };
 
 export const register = credentials => dispatch =>
-  api.user.register(credentials).then(() => {
-    dispatch(registered());
+  api.user.register(credentials).then(user => {
+    localStorage.photoPortfolioJWT = user.token;
+    dispatch(registered(user));
   });
