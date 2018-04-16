@@ -2,8 +2,9 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import auth from './routes/auth';
-import dotenv from 'dotenv';
+import auth from "./routes/auth";
+import dotenv from "dotenv";
+import morgan from "morgan";
 
 const Promise = global.Promise;
 const port = process.env.PORT || 8080;
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, () =>
 );
 
 app.use(bodyParser.json());
+app.use(morgan("dev"));
 app.use("/auth", auth);
 
 app.get("*", (req, res) => {
