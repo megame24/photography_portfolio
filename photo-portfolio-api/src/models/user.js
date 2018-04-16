@@ -2,11 +2,22 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+const salt = 10;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   username: {type: String, unique: true, required: true},
-  password: {type: String}
+  password: {type: String, required: true},
+  question: {type: String, required: true},
+  answer: {type: String, lowercase: true, required: true}
+});
+
+userSchema.pre('save', function(next) {
+  const password = bcrypt.hashSync(this.password, salt);
+  this.password = password;
+  const answer = bcrypt.hashSync(this.answer, salt);
+  this.answer = answer;
+  next();
 });
 
 // mongoose methods do not support es6 yet. so stick to 'function'

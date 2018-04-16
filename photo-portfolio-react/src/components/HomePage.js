@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import * as actions from '../actions/auth';
 
-/* your logout logic shouldn't go here, take it to an action. because logout will return an empty user state*/
+/* your logout logic shouldn't go here, take it to an action. because logout will return an empty user state */
 const HomePage = ({isAuthenticated, logout}) => 
   <div>
     <h1>Welcome</h1>

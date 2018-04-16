@@ -1,5 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
+import { Link } from 'react-router-dom';
 import { Form, Button, Message } from "semantic-ui-react";
 import ErrorText from "./ErrorText";
 
@@ -34,8 +35,8 @@ class LoginForm extends React.Component {
   validate = ({ username, password }) => {
     const errors = {};
     // if I were dealing with E-mail, I'll need to use a lib called "validator"(ref Rem's first vid)
-    if (!username) errors.username = "username can not be blank";
-    if (!password) errors.password = "password can not be blank";
+    if (!username) errors.username = "username is required";
+    if (!password) errors.password = "password is required";
     return errors;
   };
 
@@ -47,7 +48,7 @@ class LoginForm extends React.Component {
       <div>
         {errors.global && (
           <Message negative>
-            <Message.Header>Oops, something went wrong:</Message.Header>
+            <Message.Header>Access Denied</Message.Header>
             <p>{errors.global}</p>
           </Message>
         )}
@@ -78,6 +79,8 @@ class LoginForm extends React.Component {
           </Form.Field>
           <Button primary>Login</Button>
         </Form>
+        <br />
+        <Link to="/admin/register"><Button className="ui green button">Register</Button></Link>
       </div>
     );
   }
