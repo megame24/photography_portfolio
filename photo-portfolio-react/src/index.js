@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import decode from "jwt-decode";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import rootReducer from "./reducers/rootReducer";
@@ -17,7 +18,9 @@ const store = createStore(
 );
 
 if (localStorage.photoPortfolioJWT) {
+  const payload = decode(localStorage.photoPortfolioJWT);
   const user = {
+    username: payload.username,
     token: localStorage.getItem("photoPortfolioJWT")
   };
 

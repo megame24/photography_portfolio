@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI, () =>
 
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-app.use("/auth", auth);
+app.use("/api/auth", auth);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

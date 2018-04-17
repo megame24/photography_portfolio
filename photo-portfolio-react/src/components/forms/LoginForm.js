@@ -80,7 +80,7 @@ class LoginForm extends React.Component {
           <Button primary>Login</Button>
         </Form>
         <br />
-        <Link to="/admin/register"><Button className="ui green button">New Admin</Button></Link>
+        <Link to="/admin/register"><Button className="ui green button">New Admin</Button></Link> &nbsp; <Link to="/admin/reset-password">Forgot password</Link>
       </div>
     );
   }

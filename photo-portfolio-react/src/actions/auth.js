@@ -16,6 +16,11 @@ export const registered = user => ({
   user
 });
 
+export const resetPasswordVerified = resetData => ({
+  type: types.RESET_PASSWORD,
+  resetData
+});
+
 export const login = credentials => dispatch =>
   api.user.login(credentials).then(user => {
     localStorage.photoPortfolioJWT = user.token;
@@ -31,4 +36,9 @@ export const register = credentials => dispatch =>
   api.user.register(credentials).then(user => {
     localStorage.photoPortfolioJWT = user.token;
     dispatch(registered(user));
+  });
+
+export const resetPassword = credentials => dispatch =>
+  api.user.resetPassword(credentials).then(resetData => {
+    dispatch(resetPasswordVerified(resetData));
   });

@@ -23,8 +23,13 @@ userSchema.pre("save", function(next) {
 
 // mongoose methods do not support es6 yet. so stick to 'function'
 userSchema.methods.isValidPassword = function isValidPassword(password) {
-  // will retur bool
+  // will return bool
   return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.isValidAnswer = function isValidAnswer(answer) {
+  // will return bool
+  return bcrypt.compareSync(answer, this.answer);
 };
 
 userSchema.methods.generateJwt = function generateJwt() {
@@ -36,11 +41,19 @@ userSchema.methods.generateJwt = function generateJwt() {
   );
 };
 
-userSchema.methods.authJsonRes = function authJsonRes() {
+userSchema.methods.loginResponse = function loginResponse() {
   return {
     username: this.username,
     token: this.generateJwt()
   };
+};
+
+userSchema.methods.verifyUsernameResponse = function verifyUsernameResponse() {
+  return {
+    username: this.username,
+    question: this.question,
+    verified: true
+  }
 };
 
 userSchema.plugin(uniqueValidator, { message: "This username is already taken" });
