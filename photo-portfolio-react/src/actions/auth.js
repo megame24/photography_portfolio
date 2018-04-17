@@ -17,8 +17,12 @@ export const registered = user => ({
 });
 
 export const resetPasswordVerified = resetData => ({
-  type: types.RESET_PASSWORD,
+  type: types.RESET_PASSWORD_VERIFIED,
   resetData
+});
+
+export const passwordReset = () => ({
+  type: types.RESET_PASSWORD
 });
 
 export const login = credentials => dispatch =>
@@ -38,7 +42,12 @@ export const register = credentials => dispatch =>
     dispatch(registered(user));
   });
 
-export const resetPassword = credentials => dispatch =>
-  api.user.resetPassword(credentials).then(resetData => {
+export const verifyPassword = credentials => dispatch =>
+  api.user.verifyPassword(credentials).then(resetData => {
     dispatch(resetPasswordVerified(resetData));
+  });
+
+export const resetPassword = credentials => dispatch =>
+  api.user.resetPassword(credentials).then(() => {
+    dispatch(passwordReset());
   });

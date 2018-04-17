@@ -20,10 +20,11 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   const { username, password, question, answer, secret } = req.body;
   if (secret === process.env.ADMIN_SECRET) {
-    const user = new User({ username, password, question, answer });
+    const user = new User({ username, password, question });
+    user.answer = user.hashedAnswer(answer);
     user
       .save()
-      .then(user => res.json({ user: user.authJsonRes() }))
+      .then(user => res.json({ user: user.loginResponse() }))
       .catch(error =>
         res.status(400).json({ errors: parseError(error.errors) })
       );
@@ -39,20 +40,22 @@ router.post("/reset-password", (req, res) => {
       if (!verified) {
         res.json({ resetData: user.verifyUsernameResponse() });
       } else {
-        if (user.isValidAnswer(answer)) {
+        if (user.isValidAnswer(answer.toLowerCase())) {
           user.password = newPassword;
           user
             .save()
-            .then(() => res.json({ success: true }))
+            .then(() => res.json({success: true}))
             .catch(() =>
               res.status(500).json({errors: { global: "Try again later" }})
             );
+        } else {
+          res.status(400).json({errors: {global: "Incorrect answer"}});
         }
       }
     } else {
       res.status(400).json({
         errors: {
-          global: "user with username: " + username + "not found"
+          global: "user with username: " + username + " not found"
         }
       });
     }

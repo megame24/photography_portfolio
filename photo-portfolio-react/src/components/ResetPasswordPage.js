@@ -2,16 +2,22 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import ResetPasswordForm from "./forms/ResetPasswordForm";
-import { resetPassword } from "../actions/auth";
+import { resetPassword, verifyPassword } from "../actions/auth";
 
 class ResetPasswordPage extends React.Component {
-  submit = data => this.props.resetPassword(data);
+  verify = data => this.props.verifyPassword(data);
+
+  // not enclosing your callback in an anonymous function can really hurt you :(
+  submit = data =>
+    this.props
+      .resetPassword(data)
+      .then(() => this.props.history.push("/admin/login"));
 
   render() {
     return (
       <div>
         <h1>Reset Password</h1>
-        <ResetPasswordForm submit={this.submit} history={this.props.history} />
+        <ResetPasswordForm verify={this.verify} submit={this.submit} />
       </div>
     );
   }
@@ -24,4 +30,6 @@ ResetPasswordPage.propTypes = {
   }).isRequired
 };
 
-export default connect(null, { resetPassword })(ResetPasswordPage);
+export default connect(null, { resetPassword, verifyPassword })(
+  ResetPasswordPage
+);

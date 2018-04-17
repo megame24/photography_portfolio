@@ -10,16 +10,19 @@ const userSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   question: { type: String, required: true },
-  answer: { type: String, lowercase: true, required: true }
+  answer: { type: String, required: true }
 });
 
 userSchema.pre("save", function(next) {
   const password = bcrypt.hashSync(this.password, salt);
   this.password = password;
-  const answer = bcrypt.hashSync(this.answer, salt);
-  this.answer = answer;
   next();
 });
+
+userSchema.methods.hashedAnswer = function hashedAnswer(answer) {
+  answer = answer.toLowerCase();
+  return bcrypt.hashSync(answer, salt);
+}
 
 // mongoose methods do not support es6 yet. so stick to 'function'
 userSchema.methods.isValidPassword = function isValidPassword(password) {

@@ -7,9 +7,12 @@ export default {
       axios.post("/api/auth/login", credentials).then(res => res.data.user),
     register: credentials =>
       axios.post("/api/auth/register", credentials).then(res => res.data.user),
+    verifyPassword: credentials =>
+      axios
+        .post("/api/auth/reset-password", credentials)
+        .then(res => res.data.resetData),
     resetPassword: credentials =>
       axios
         .post("/api/auth/reset-password", credentials)
-        .then(res => res.data.resetData)
   }
 };

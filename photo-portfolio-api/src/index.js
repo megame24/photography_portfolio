@@ -5,8 +5,8 @@ import bodyParser from "body-parser";
 import auth from "./routes/auth";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import Promise from "bluebird";
 
-const Promise = global.Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
