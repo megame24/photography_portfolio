@@ -34,7 +34,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/reset-password", (req, res) => {
-  const { username, verified, answer, newPassword } = req.body;
+  const { username, git, answer, newPassword } = req.body;
   User.findOne({ username }).then(user => {
     if (user) {
       if (!verified) {
