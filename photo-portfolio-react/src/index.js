@@ -21,6 +21,7 @@ if (localStorage.photoPortfolioJWT) {
   const payload = decode(localStorage.photoPortfolioJWT);
   const user = {
     username: payload.username,
+    verified: payload.verified,
     token: localStorage.getItem("photoPortfolioJWT")
   };
 
