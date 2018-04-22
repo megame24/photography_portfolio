@@ -39,6 +39,7 @@ userSchema.methods.isValidAnswer = function isValidAnswer(answer) {
 userSchema.methods.generateJwt = function generateJwt() {
   return jwt.sign(
     {
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 12),
       username: this.username,
       verified: this.verified
     },

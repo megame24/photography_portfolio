@@ -19,13 +19,16 @@ const store = createStore(
 
 if (localStorage.photoPortfolioJWT) {
   const payload = decode(localStorage.photoPortfolioJWT);
-  const user = {
-    username: payload.username,
-    verified: payload.verified,
-    token: localStorage.getItem("photoPortfolioJWT")
-  };
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (currentTime < payload.exp) {
+    const user = {
+      username: payload.username,
+      verified: payload.verified,
+      token: localStorage.getItem("photoPortfolioJWT")
+    };
 
-  store.dispatch(loggedIn(user));
+    store.dispatch(loggedIn(user));
+  }
 }
 
 render(
