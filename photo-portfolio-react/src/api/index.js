@@ -12,10 +12,11 @@ export default {
         .post("/api/auth/reset-password", credentials)
         .then(res => res.data.resetData),
     resetPassword: credentials =>
-      axios
-        .post("/api/auth/reset-password", credentials)
+      axios.post("/api/auth/reset-password", credentials)
   },
   admins: {
-    getListOfAdmins: () => axios.get("/api/list-of-admins").then(res => res.data.admins)
+    getListOfAdmins: () =>
+      axios.get("/api/admin/list_of_admins").then(res => res.data.admins),
+    verifyAdmin: username => axios.post("/api/admin/verify_admin", { username })
   }
 };

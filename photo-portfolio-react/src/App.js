@@ -8,7 +8,6 @@ import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import RegisterPage from "./components/RegisterPage";
 import ResetPasswordPage from "./components/ResetPasswordPage";
-import ManagementPage from "./components/ManagementPage";
 
 // we need to pass location to the routes because of react-redux's connect blockers involved
 // when connect is used together with react-router
@@ -45,12 +44,6 @@ const App = ({ location }) => (
         path="/admin/dashboard"
         exact
         component={DashboardPage}
-      />
-      <UserRoute
-        location={location}
-        path="/admin/manage"
-        exact
-        component={ManagementPage}
       />
       <Route location={location} path="*" exact component={HomePage} />
     </Switch>

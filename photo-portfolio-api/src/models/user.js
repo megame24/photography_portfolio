@@ -11,7 +11,9 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   question: { type: String, required: true },
   answer: { type: String, required: true },
-  verified: { type: Boolean, default: false }
+  verified: { type: Boolean, default: false },
+  alpha: { type: Boolean, default: false },
+  enabled: { type: Boolean, default: true }
 });
 
 userSchema.pre("save", function(next) {
@@ -39,9 +41,11 @@ userSchema.methods.isValidAnswer = function isValidAnswer(answer) {
 userSchema.methods.generateJwt = function generateJwt() {
   return jwt.sign(
     {
-      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 12),
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 12,
       username: this.username,
-      verified: this.verified
+      verified: this.verified,
+      alpha: this.alpha,
+      enabled: this.enabled
     },
     process.env.JWT_SECRET
   );
@@ -51,6 +55,8 @@ userSchema.methods.loginResponse = function loginResponse() {
   return {
     username: this.username,
     verified: this.verified,
+    alpha: this.alpha,
+    enabled: this.enabled,
     token: this.generateJwt()
   };
 };
@@ -59,8 +65,10 @@ userSchema.methods.listOfAdminsRes = function listOfAdminsRes(users) {
   return users.map(user => {
     return {
       username: user.username,
-      verified: user.verified
-    }
+      verified: user.verified,
+      alpha: user.alpha,
+      enabled: user.enabled
+    };
   });
 };
 

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import Promise from "bluebird";
 import auth from "./routes/auth";
-import admins from "./routes/admins";
+import admin from "./routes/admin";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, () =>
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use("/api/auth", auth);
-app.use("/api/list-of-admins", admins);
+app.use("/api/admin", admin);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

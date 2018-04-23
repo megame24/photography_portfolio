@@ -6,9 +6,10 @@ const listOfAdmins = admins => ({
     admins
 });
 
-const getListOfAdmins = () => dispatch =>
+export const getListOfAdmins = () => dispatch =>
     api.admins.getListOfAdmins().then(admins => {
         dispatch(listOfAdmins(admins));
     });
 
-export default getListOfAdmins;
+export const verifyAdmin = username => dispatch =>
+    api.admins.verifyAdmin(username);

@@ -1,58 +1,83 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Grid, Button, Message } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import getListOfAdmins from "../actions/admins";
+import { Message } from "semantic-ui-react";
+import { getListOfAdmins, verifyAdmin } from "../actions/admins";
+import ManageAdmins from "./ManageAdmins";
+import ManageContent from "./ManageContent";
 
 class DashboardPage extends React.Component {
-  componentWillMount() {
-    this.props.getListOfAdmins();
+  state = {
+    loading: true
   }
 
-  render() {
-    const { verified } = this.props;
+  componentWillMount = () => {
+    if (this.props.alpha) this.props.getListOfAdmins();
+  };
+
+  verifyAdmin = username => 
+    this.props.verifyAdmin(username).then(() => {
+      this.props.getListOfAdmins();
+    });
+  
+
+  // refactor this!!!
+  render = () => {
+    const { enabled, verified, alpha, admins } = this.props;
     return (
       <div>
         <h2>Dashboard</h2>
-        {!verified ? (
+        {!verified && (
           <div>
             <Message warning>
               <Message.Header>Account Not Verified</Message.Header>
               <p>
                 Your account needs to be verified for you to gain admin
-                previlages. Get a verified admin to verify your account
+                previlages. Get a chief admin to verify your account
               </p>
             </Message>
           </div>
-        ) : (
+        )}
+        {!enabled && (
           <div>
-            <Grid>
-              <Grid.Column mobile={16} computer={6}>
-                <h4>Manage admins</h4>
-              </Grid.Column>
-              <Grid.Column mobile={16} computer={10}>
-                <Link to="/admin/manage">
-                  <Button primary>Manage Content</Button>
-                </Link>
-              </Grid.Column>
-            </Grid>
+            <Message negative>
+              <Message.Header>Account Disabled</Message.Header>
+              <p>
+                Your account has been disabled. If you believe this to be a
+                mistake, contact a chief admin
+              </p>
+            </Message>
           </div>
         )}
+        {enabled &&
+          verified && (
+            <div>
+              {alpha && (
+                <ManageAdmins admins={admins} verifyAdmin={this.verifyAdmin} loading={this.state.loading} />
+              )}
+              <ManageContent />
+            </div>
+          )}
       </div>
     );
-  }
+  };
 }
 
 DashboardPage.propTypes = {
   verified: PropTypes.bool.isRequired,
-  getListOfAdmins: PropTypes.func.isRequired
+  alpha: PropTypes.bool.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  getListOfAdmins: PropTypes.func.isRequired,
+  verifyAdmin: PropTypes.func.isRequired
 };
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user, admins }) {
   return {
-    verified: user.verified
+    verified: user.verified,
+    alpha: user.alpha,
+    enabled: user.enabled,
+    admins: admins
   };
 }
 
-export default connect(mapStateToProps, { getListOfAdmins })(DashboardPage);
+export default connect(mapStateToProps, { getListOfAdmins, verifyAdmin })(DashboardPage);
