@@ -17,6 +17,12 @@ export default {
   admins: {
     getListOfAdmins: () =>
       axios.get("/api/admin/list_of_admins").then(res => res.data.admins),
-    verifyAdmin: username => axios.post("/api/admin/verify_admin", { username })
+    verifyAdmin: username =>
+      axios.post("/api/admin/verify_admin", { username }),
+    enableOrDisableAdmin: (username, enableOrDisable) =>
+      axios.post("/api/admin/enable_or_disable_admin", {
+        username,
+        enableOrDisable
+      })
   }
 };

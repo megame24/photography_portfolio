@@ -5,16 +5,35 @@ import { Table, Button } from "semantic-ui-react";
 class ManageAdmins extends React.Component {
   state = {
     loading: false,
+    verifying: false,
+    enablingOrDisabling: false,
+    deleting: false,
     username: ""
   };
 
+  componentWillReceiveProps() {
+    this.setState({ loading: false });
+  }
+
   verifyAdmin = username => {
-    this.setState({ loading: true, username });
-    this.props.verifyAdmin(username).then(() => this.setState({ loading: this.props.loading }));
+    this.setState({ loading: true, verifying: true, username });
+    this.props.verifyAdmin(username);
   };
+
+  enableOrDisableAdmin = (username, enableOrDisable) => {
+    this.setState({ loading: true, enablingOrDisabling: true, username });
+    this.props.enableOrDisableAdmin(username, enableOrDisable);
+  }
 
   tableRows = () => {
     return this.props.admins.map(admin => {
+      const {
+        loading,
+        verifying,
+        username,
+        deleting,
+        enablingOrDisabling
+      } = this.state;
       return (
         <Table.Row key={admin.username}>
           <Table.Cell>{admin.username}</Table.Cell>
@@ -25,25 +44,41 @@ class ManageAdmins extends React.Component {
               <Button
                 onClick={() => this.verifyAdmin(admin.username)}
                 primary
-                disabled={admin.alpha}
+                disabled={admin.alpha || this.state.loading}
               >
-                {(this.state.loading && (this.state.username === admin.username))? "verifying..." : "verify"}
+                {loading && verifying && username === admin.username ? "verifying..." : "verify"}
               </Button>
             )}
           </Table.Cell>
           <Table.Cell>
             {admin.enabled ? (
-              <Button color="orange" disabled={admin.alpha}>
-                disable
+              <Button
+                onClick={() =>
+                  this.enableOrDisableAdmin(admin.username, false)
+                }
+                color="orange"
+                disabled={admin.alpha || this.state.loading}
+              >
+                {loading && enablingOrDisabling && username === admin.username
+                  ? "disabling..."
+                  : "disable"}
               </Button>
             ) : (
-              <Button positive disabled={admin.alpha}>
-                enable
+              <Button
+                onClick={() =>
+                  this.enableOrDisableAdmin(admin.username, true)
+                }
+                positive
+                disabled={admin.alpha || this.state.loading}
+              >
+                {loading && enablingOrDisabling && username === admin.username
+                  ? "enabling..."
+                  : "enable"}
               </Button>
             )}
           </Table.Cell>
           <Table.Cell>
-            <Button negative disabled={admin.alpha}>
+            <Button negative disabled={admin.alpha || this.state.loading}>
               delete
             </Button>
           </Table.Cell>
@@ -55,7 +90,7 @@ class ManageAdmins extends React.Component {
   render() {
     return (
       <div>
-        <h4>Manage Admins</h4>
+        <h4>Manage Accounts</h4>
         <hr />
         <Table striped>
           <Table.Header>
