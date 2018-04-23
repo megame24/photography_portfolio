@@ -27,7 +27,8 @@ ResetPasswordPage.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  verifyPassword: PropTypes.func.isRequired
 };
 
 export default connect(null, { resetPassword, verifyPassword })(

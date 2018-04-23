@@ -123,7 +123,6 @@ class ResetPasswordForm extends React.Component {
         <Form onSubmit={this.submit} loading={loading}>
           <Form.Field error={!!errors.answer}>
             <h5>{this.props.question}?</h5>
-            <label htmlFor="answer"></label>
             <input
               value={data.answer}
               type="text"
@@ -166,11 +165,11 @@ class ResetPasswordForm extends React.Component {
 }
 
 ResetPasswordForm.propTypes = {
-  username: PropTypes.string,
-  question: PropTypes.string,
+  username: PropTypes.string.isRequired,
+  question: PropTypes.string.isRequired,
   submit: PropTypes.func.isRequired,
   verify: PropTypes.func.isRequired,
-  verified: PropTypes.bool
+  verified: PropTypes.bool.isRequired
 };
 
 function mapStateToProps({ resetPassword }) {

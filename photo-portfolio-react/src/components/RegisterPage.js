@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RegisterForm from "./forms/RegisterForm";
 import { connect } from "react-redux";
+import RegisterForm from "./forms/RegisterForm";
 import { register } from "../actions/auth";
 
 class RegisterPage extends React.Component {

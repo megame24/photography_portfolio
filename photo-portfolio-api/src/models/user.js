@@ -55,6 +55,15 @@ userSchema.methods.loginResponse = function loginResponse() {
   };
 };
 
+userSchema.methods.listOfAdminsRes = function listOfAdminsRes(users) {
+  return users.map(user => {
+    return {
+      username: user.username,
+      verified: user.verified
+    }
+  });
+};
+
 userSchema.methods.verifyUsernameResponse = function verifyUsernameResponse() {
   return {
     username: this.username,

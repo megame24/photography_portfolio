@@ -14,5 +14,8 @@ export default {
     resetPassword: credentials =>
       axios
         .post("/api/auth/reset-password", credentials)
+  },
+  admins: {
+    getListOfAdmins: () => axios.get("/api/list-of-admins").then(res => res.data.admins)
   }
 };

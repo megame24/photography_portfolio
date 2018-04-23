@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const ManagementPage = ({ verified, history }) => {
-  return !verified ? (
+const ManagementPage = ({ verified, history }) => !verified ? (
     <div>
       {null}
       {history.push("/admin/dashboard")}
@@ -13,7 +12,7 @@ const ManagementPage = ({ verified, history }) => {
       <h1>Manage content here</h1>
     </div>
   );
-};
+;
 
 ManagementPage.propTypes = {
   verified: PropTypes.bool.isRequired,
