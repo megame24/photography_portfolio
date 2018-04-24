@@ -23,7 +23,7 @@ class ManageAdmins extends React.Component {
   enableOrDisableAdmin = (username, enableOrDisable) => {
     this.setState({ loading: true, enablingOrDisabling: true, username });
     this.props.enableOrDisableAdmin(username, enableOrDisable);
-  }
+  };
 
   tableRows = () => {
     return this.props.admins.map(admin => {
@@ -42,20 +42,22 @@ class ManageAdmins extends React.Component {
               "verified"
             ) : (
               <Button
+                size="small"
                 onClick={() => this.verifyAdmin(admin.username)}
                 primary
                 disabled={admin.alpha || this.state.loading}
               >
-                {loading && verifying && username === admin.username ? "verifying..." : "verify"}
+                {loading && verifying && username === admin.username
+                  ? "verifying..."
+                  : "verify"}
               </Button>
             )}
           </Table.Cell>
           <Table.Cell>
             {admin.enabled ? (
               <Button
-                onClick={() =>
-                  this.enableOrDisableAdmin(admin.username, false)
-                }
+                size="small"
+                onClick={() => this.enableOrDisableAdmin(admin.username, false)}
                 color="orange"
                 disabled={admin.alpha || this.state.loading}
               >
@@ -65,9 +67,8 @@ class ManageAdmins extends React.Component {
               </Button>
             ) : (
               <Button
-                onClick={() =>
-                  this.enableOrDisableAdmin(admin.username, true)
-                }
+                size="small"
+                onClick={() => this.enableOrDisableAdmin(admin.username, true)}
                 positive
                 disabled={admin.alpha || this.state.loading}
               >
@@ -78,7 +79,11 @@ class ManageAdmins extends React.Component {
             )}
           </Table.Cell>
           <Table.Cell>
-            <Button negative disabled={admin.alpha || this.state.loading}>
+            <Button
+              size="small"
+              negative
+              disabled={admin.alpha || this.state.loading}
+            >
               delete
             </Button>
           </Table.Cell>
